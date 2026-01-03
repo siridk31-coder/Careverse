@@ -1,0 +1,3 @@
+uid,name,biometric_id,language_pref,literacy_level,current_schemes,avatarId,age,gender
+p1,"gayathri",bio_gayathri,indian,Low,"[""Senior Citizen Health Scheme""]",patient-avatar-1,68,Female
+p2,"John Smith",bio_john_s,English,High,"[]",patient-avatar-2,45,Male

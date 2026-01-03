@@ -1,0 +1,4 @@
+id,patient_uid,status,date,hospital_name,record_id,doctor_name,specialty,voice_note_url,follow_up_date
+appt1,p1,Completed,2024-07-15T10:00:00Z,"City General Hospital",rec1,"Dr. Emily Carter",Cardiology,/mock-audio/note1.mp3,2024-08-15T10:00:00Z
+appt2,p1,Scheduled,2024-08-15T10:00:00Z,"City General Hospital",rec2,"Dr. Emily Carter",Cardiology,,
+appt3,p2,Completed,2024-07-20T14:30:00Z,"Community Health Clinic",rec3,"Dr. Ben Hanson",Orthopedics,/mock-audio/note2.mp3,
