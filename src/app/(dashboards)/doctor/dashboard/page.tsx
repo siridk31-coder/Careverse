@@ -1,12 +1,31 @@
 
-import { appointments, patients } from "@/lib/mock-data";
+'use client';
+
+import { useState } from "react";
+import { appointments as initialAppointments, patients } from "@/lib/mock-data";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Stethoscope } from "lucide-react";
+import { Stethoscope, Check, X } from "lucide-react";
 import PatientsTable from "@/components/app/patients-table";
 import AppointmentCard from "@/components/app/appointment-card";
 import FeeCalculator from "@/components/app/fee-calculator";
+import { Button } from "@/components/ui/button";
+import { useToast } from "@/hooks/use-toast";
+import type { Appointment } from "@/lib/types";
 
 export default function DoctorDashboard() {
+  const [appointments, setAppointments] = useState<Appointment[]>(initialAppointments);
+  const { toast } = useToast();
+
+  const handleUpdateAppointment = (appointmentId: string, status: "Completed" | "Cancelled") => {
+    setAppointments(prev => prev.map(app => 
+        app.id === appointmentId ? { ...app, status } : app
+    ));
+    toast({
+        title: `Appointment ${status}`,
+        description: `The appointment has been marked as ${status.toLowerCase()}.`
+    });
+  }
+
   const upcomingAppointments = appointments.filter(a => a.status === 'Scheduled');
 
   return (
@@ -27,7 +46,17 @@ export default function DoctorDashboard() {
           <CardContent className="space-y-4">
             {upcomingAppointments.length > 0 ? (
                 upcomingAppointments.map(app => (
-                    <AppointmentCard key={app.id} appointment={app} />
+                    <div key={app.id} className="space-y-2">
+                        <AppointmentCard appointment={app} userType="doctor" />
+                        <div className="flex gap-2 justify-end">
+                            <Button size="sm" variant="outline" onClick={() => handleUpdateAppointment(app.id, 'Completed')}>
+                                <Check className="mr-2 h-4 w-4" /> Mark as Completed
+                            </Button>
+                             <Button size="sm" variant="destructive" onClick={() => handleUpdateAppointment(app.id, 'Cancelled')}>
+                                <X className="mr-2 h-4 w-4" /> Cancel Appointment
+                            </Button>
+                        </div>
+                    </div>
                 ))
             ) : (
                 <p className="text-muted-foreground text-center py-8">No upcoming appointments.</p>

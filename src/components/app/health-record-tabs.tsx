@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import Image from "next/image";
@@ -9,7 +10,7 @@ import { DigitalHealthRecord, Patient } from "@/lib/types";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import CarePlanGenerator from "./care-plan-generator";
 import { FileText, Pill, Scan, Edit, Save, PlusCircle, Trash2 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -25,6 +26,12 @@ export default function HealthRecordTabs({ record: initialRecord, patient }: Hea
   const [notes, setNotes] = useState(record.notes);
   const [isEditingPrescriptions, setIsEditingPrescriptions] = useState(false);
   const [prescriptions, setPrescriptions] = useState(record.prescriptions);
+  const [formattedDate, setFormattedDate] = useState('');
+
+  useEffect(() => {
+    setFormattedDate(new Date(record.timestamp).toLocaleDateString());
+  }, [record.timestamp]);
+
 
   const scans = record.scan_ids.map(id => PlaceHolderImages.find(p => p.id === id)).filter(Boolean);
 
@@ -67,7 +74,7 @@ export default function HealthRecordTabs({ record: initialRecord, patient }: Hea
           <CardHeader>
             <CardTitle className="font-headline">{record.diagnosis}</CardTitle>
             <CardDescription>
-              Recorded by {record.doctor.name} ({record.doctor.specialty}) on {new Date(record.timestamp).toLocaleDateString()}
+              Recorded by {record.doctor.name} ({record.doctor.specialty}) on {formattedDate}
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">

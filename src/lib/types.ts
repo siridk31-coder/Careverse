@@ -10,6 +10,12 @@ export interface Patient {
   gender: 'Male' | 'Female' | 'Other';
 }
 
+export interface Doctor {
+  uid: string;
+  name: string;
+  specialty: string;
+}
+
 export interface DigitalHealthRecord {
   record_id: string;
   patient_uid: string;
@@ -32,6 +38,9 @@ export interface HospitalOperation {
   opd_status: 'Crowded' | 'Normal' | 'Light';
   doctor_availability: { specialty: string; available: number; total: number }[];
   emergency_cases: { case_id: string; description: string; severity: 'High' | 'Medium' | 'Low'; patientName: string; }[];
+  isGovernment: boolean;
+  special_equipment: ('MRI' | 'Radiotherapy' | 'PET Scan')[];
+  location: { lat: number; lng: number };
 }
 
 export interface Appointment {

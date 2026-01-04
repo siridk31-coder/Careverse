@@ -1,4 +1,5 @@
 
+
 import { appointments, patients, healthRecords } from "@/lib/mock-data";
 import { Patient } from "@/lib/types";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -6,13 +7,31 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
-import { User, Languages, FileText } from "lucide-react";
+import { User, Languages, FileText, Frown } from "lucide-react";
 import Link from "next/link";
 import VoiceCommandButton from "@/components/app/voice-command-button";
 import PatientPortalTabs from "@/components/app/patient-portal-tabs";
 
 export default function PatientDashboard({ params }: { params: { id: string } }) {
-  const patient = patients.find((p) => p.uid === params.id) as Patient;
+  const patient = patients.find((p) => p.uid === params.id);
+
+  if (!patient) {
+    return (
+      <div className="flex flex-col items-center justify-center text-center py-20">
+        <Frown className="w-16 h-16 text-muted-foreground" />
+        <h1 className="text-2xl font-bold mt-4 font-headline">Patient Not Found</h1>
+        <p className="text-muted-foreground mt-2">
+          The patient profile you are looking for does not exist.
+        </p>
+         <Button variant="outline" asChild className="mt-6">
+            <Link href="/login">
+                Back to Login
+            </Link>
+        </Button>
+      </div>
+    );
+  }
+
   const patientAppointments = appointments.filter(
     (a) => a.patient_uid === params.id
   );

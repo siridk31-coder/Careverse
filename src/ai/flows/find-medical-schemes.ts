@@ -76,20 +76,12 @@ const findMedicalSchemesFlow = ai.defineFlow(
     outputSchema: FindMedicalSchemesOutputSchema,
   },
   async (input) => {
-    const llmResponse = await ai.generate({
-      prompt: `A patient has been diagnosed with "{{diagnosis}}". Use the available tools to find relevant Indian government medical schemes for them. Provide a brief reasoning for your selections.`,
-      model: 'googleai/gemini-2.5-flash',
-      tools: [searchSchemesTool],
-      input: input,
-      output: {
-          schema: FindMedicalSchemesOutputSchema
-      }
-    });
+    // MOCK: Directly call the tool to bypass AI rate limits during development.
+    const toolResult = await searchSchemesTool.run({ query: input.diagnosis });
 
-    if (!llmResponse.output) {
-      throw new Error("Unable to generate a response from the AI model.");
-    }
-    
-    return llmResponse.output;
+    return {
+      eligibleSchemes: toolResult.result || [],
+      reasoning: `Schemes were directly searched based on the diagnosis: "${input.diagnosis}". (This is a mock response to avoid rate limits).`
+    };
   }
 );

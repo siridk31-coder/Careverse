@@ -9,6 +9,8 @@ import { Loader2, Wand2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import { Label } from '../ui/label';
+import { Input } from '../ui/input';
 
 type DietPlanGeneratorProps = {
   diagnosis: string;
@@ -16,11 +18,20 @@ type DietPlanGeneratorProps = {
 };
 
 const indianRegions = ["North Indian", "South Indian", "East Indian", "West Indian", "Bengali", "Gujarati", "Punjabi"];
+const dietaryPreferences = [
+    { value: "vegetarian", label: "Vegetarian" },
+    { value: "non-vegetarian", label: "Non-Vegetarian" },
+    { value: "jain", label: "Jain" },
+];
+
 
 export default function DietPlanGenerator({ diagnosis, language }: DietPlanGeneratorProps) {
   const [dietPlan, setDietPlan] = useState<DietPlanOutput | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [region, setRegion] = useState('North Indian');
+  const [dietaryPreference, setDietaryPreference] = useState<"vegetarian" | "non-vegetarian" | "jain">('vegetarian');
+  const [allergies, setAllergies] = useState('');
+
   const { toast } = useToast();
 
   const handleGeneratePlan = async () => {
@@ -40,6 +51,8 @@ export default function DietPlanGenerator({ diagnosis, language }: DietPlanGener
         diagnosis,
         language,
         region,
+        dietaryPreference,
+        allergies,
       };
       
       const result = await generateDietPlan(input);
@@ -77,9 +90,20 @@ export default function DietPlanGenerator({ diagnosis, language }: DietPlanGener
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
-        <div className="flex flex-col sm:flex-row gap-4">
-            <div className="flex-1 space-y-2">
-                <label className="text-sm font-medium">Select Region</label>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="space-y-2">
+                <Label>Dietary Preference</Label>
+                <Select value={dietaryPreference} onValueChange={(v) => setDietaryPreference(v as any)}>
+                    <SelectTrigger>
+                        <SelectValue placeholder="Select preference" />
+                    </SelectTrigger>
+                    <SelectContent>
+                        {dietaryPreferences.map(p => <SelectItem key={p.value} value={p.value}>{p.label}</SelectItem>)}
+                    </SelectContent>
+                </Select>
+            </div>
+             <div className="space-y-2">
+                <Label>Cuisine Region</Label>
                 <Select value={region} onValueChange={setRegion}>
                     <SelectTrigger>
                         <SelectValue placeholder="Select a region" />
@@ -89,22 +113,26 @@ export default function DietPlanGenerator({ diagnosis, language }: DietPlanGener
                     </SelectContent>
                 </Select>
             </div>
-            <div className="self-end">
-                <Button onClick={handleGeneratePlan} disabled={isLoading} className="w-full sm:w-auto">
-                {isLoading ? (
-                    <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Generating...
-                    </>
-                ) : (
-                    <>
-                    <Wand2 className="mr-2 h-4 w-4" />
-                    Generate Diet Plan
-                    </>
-                )}
-                </Button>
+             <div className="col-span-1 md:col-span-2 space-y-2">
+                <Label htmlFor='allergies'>Allergies (comma-separated)</Label>
+                <Input id="allergies" value={allergies} onChange={(e) => setAllergies(e.target.value)} placeholder="e.g., peanuts, dairy, gluten" />
             </div>
         </div>
+
+        <Button onClick={handleGeneratePlan} disabled={isLoading} className="w-full sm:w-auto">
+        {isLoading ? (
+            <>
+            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            Generating...
+            </>
+        ) : (
+            <>
+            <Wand2 className="mr-2 h-4 w-4" />
+            Generate Diet Plan
+            </>
+        )}
+        </Button>
+
 
         {isLoading && (
             <div className="flex flex-col items-center justify-center rounded-md border border-dashed p-8 text-center animate-pulse">

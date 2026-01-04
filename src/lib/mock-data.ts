@@ -1,4 +1,4 @@
-import type { Patient, Appointment, DigitalHealthRecord, HospitalOperation } from './types';
+import type { Patient, Appointment, DigitalHealthRecord, HospitalOperation, Doctor } from './types';
 
 // Data is hardcoded here as there's no CSV writing capability.
 // In a real app this would be a database.
@@ -26,6 +26,11 @@ export const patients: Patient[] = [
         "age": 45,
         "gender": "Male"
     }
+];
+
+export const doctors: Doctor[] = [
+    { uid: 'd1', name: 'Dr. Emily Carter', specialty: 'Geriatrics' },
+    { uid: 'd2', name: 'Dr. Benfield', specialty: 'Cardiology' },
 ];
 
 export const appointments: Appointment[] = [
@@ -116,6 +121,64 @@ export const hospitalOperations: HospitalOperation[] = [
         "emergency_cases": [
             { "case_id": "er001", "description": "Chest Pains", "severity": "High", "patientName": "R. Sharma" },
             { "case_id": "er002", "description": "Fractured Arm", "severity": "Medium", "patientName": "S. Jones" }
-        ]
+        ],
+        "isGovernment": true,
+        "special_equipment": ["MRI", "Radiotherapy"],
+        "location": { "lat": 12.9716, "lng": 77.5946 }
+    },
+    {
+        "hospital_id": "hosp2",
+        "name": "Apollo Hospital",
+        "live_medicine_stock": {
+            "Paracetamol": { "quantity": 2000, "low_stock_threshold": 500 },
+            "Lisinopril": { "quantity": 1000, "low_stock_threshold": 200 },
+            "Metformin": { "quantity": 1200, "low_stock_threshold": 300 }
+        },
+        "opd_status": "Light",
+        "doctor_availability": [
+            { "specialty": "Cardiology", "available": 5, "total": 5 },
+            { "specialty": "Neurology", "available": 3, "total": 3 },
+            { "specialty": "Oncology", "available": 4, "total": 4 }
+        ],
+        "emergency_cases": [],
+        "isGovernment": false,
+        "special_equipment": ["PET Scan", "MRI"],
+        "location": { "lat": 12.9345, "lng": 77.6262 }
+    },
+     {
+        "hospital_id": "hosp3",
+        "name": "Fortis Hospital",
+        "live_medicine_stock": {
+            "Paracetamol": { "quantity": 1800, "low_stock_threshold": 500 },
+            "Amlodipine": { "quantity": 700, "low_stock_threshold": 200 }
+        },
+        "opd_status": "Crowded",
+        "doctor_availability": [
+            { "specialty": "Orthopedics", "available": 3, "total": 5 },
+            { "specialty": "Pediatrics", "available": 6, "total": 6 }
+        ],
+        "emergency_cases": [
+             { "case_id": "er003", "description": "High fever", "severity": "Medium", "patientName": "A. Kumar" }
+        ],
+        "isGovernment": false,
+        "special_equipment": ["MRI"],
+        "location": { "lat": 12.9141, "lng": 77.6369 }
+    },
+    {
+        "hospital_id": "hosp4",
+        "name": "Sanjay Gandhi Institute",
+        "live_medicine_stock": {
+            "Paracetamol": { "quantity": 100, "low_stock_threshold": 500 },
+            "Amlodipine": { "quantity": 700, "low_stock_threshold": 200 }
+        },
+        "opd_status": "Normal",
+        "doctor_availability": [
+            { "specialty": "Orthopedics", "available": 3, "total": 5 },
+            { "specialty": "Pediatrics", "available": 6, "total": 6 }
+        ],
+        "emergency_cases": [],
+        "isGovernment": true,
+        "special_equipment": ["PET Scan"],
+        "location": { "lat": 12.9248, "lng": 77.5807 }
     }
 ];

@@ -7,6 +7,12 @@
       "imageHint": "indian woman"
     },
     {
+      "id": "doctor-avatar",
+      "description": "Avatar for a doctor",
+      "imageUrl": "https://images.unsplash.com/photo-1622253692010-333f2da6031d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxkb2N0b3IlMjBwb3J0cmFpdHxlbnwwfHx8fDE3Njc1NDQ5Njl8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "doctor portrait"
+    },
+    {
       "id": "patient-avatar-2",
       "description": "Avatar for patient John",
       "imageUrl": "https://images.unsplash.com/photo-1583195763986-0231686dcd43?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxtYW4lMjBwb3J0cmFpdHxlbnwwfHx8fDE3NjcyMjcxOTN8MA&ixlib=rb-4.1.0&q=80&w=1080",
@@ -26,9 +32,9 @@
     },
     {
       "id": "hero",
-      "description": "Doctor with a patient",
-      "imageUrl": "https://images.unsplash.com/photo-1584516150909-c43483ee7932?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8ZG9jdG9yJTIwcGF0aWVudHxlbnwwfHx8fDE3NjcyNDEwMDJ8MA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "doctor patient"
+      "description": "Indian doctor with a patient",
+      "imageUrl": "https://images.unsplash.com/photo-1659353888906-adb3e0041693?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxpbmRpYW4lMjBkb2N0b3IlMjBwYXRpZW50fGVufDB8fHx8MTc2NzUwMDAyNXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "indian doctor patient"
     },
     {
       "id": "hospital-1",

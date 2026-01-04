@@ -1,3 +1,4 @@
+
 'use client';
 
 import Link from "next/link";
@@ -8,13 +9,24 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Calendar, Clock, FileText, Hospital, Stethoscope } from "lucide-react";
 import SummaryModal from "./summary-modal";
 import { useEffect, useState } from "react";
+import { healthRecords } from "@/lib/mock-data";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+import PatientHealthRecord from "./patient-health-record";
+
 
 type AppointmentCardProps = {
   appointment: Appointment;
   isUpcoming?: boolean;
+  userType: 'patient' | 'doctor';
 };
 
-export default function AppointmentCard({ appointment, isUpcoming = false }: AppointmentCardProps) {
+export default function AppointmentCard({ appointment, isUpcoming = false, userType }: AppointmentCardProps) {
   const [formattedDate, setFormattedDate] = useState('');
   const [formattedTime, setFormattedTime] = useState('');
 
@@ -24,6 +36,7 @@ export default function AppointmentCard({ appointment, isUpcoming = false }: App
     setFormattedTime(appointmentDate.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' }));
   }, [appointment.date]);
 
+  const record = healthRecords.find(r => r.record_id === appointment.record_id);
 
   return (
     <Card className={`transition-all hover:shadow-md ${isUpcoming ? 'border-primary border-2' : ''}`}>
@@ -53,11 +66,29 @@ export default function AppointmentCard({ appointment, isUpcoming = false }: App
           </div>
         </div>
         <div className="flex flex-col justify-center items-start sm:items-end gap-2">
-          <Button asChild>
-            <Link href={`/doctor/patient-record/${appointment.record_id}`}>
-              <FileText className="mr-2 h-4 w-4"/> View Health Record
-            </Link>
-          </Button>
+          {userType === 'doctor' ? (
+            <Button asChild>
+              <Link href={`/doctor/patient-record/${appointment.record_id}`}>
+                <FileText className="mr-2 h-4 w-4"/> Edit/View Record
+              </Link>
+            </Button>
+          ) : (
+            record && (
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button><FileText className="mr-2 h-4 w-4" /> View Health Record</Button>
+              </DialogTrigger>
+              <DialogContent className="max-w-3xl">
+                <DialogHeader>
+                  <DialogTitle>Health Record</DialogTitle>
+                </DialogHeader>
+                <div className="max-h-[80vh] overflow-y-auto p-1">
+                  <PatientHealthRecord record={record} />
+                </div>
+              </DialogContent>
+            </Dialog>
+            )
+          )}
           {appointment.voice_note_url && (
             <SummaryModal appointment={appointment} />
           )}
